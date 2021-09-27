@@ -1,5 +1,4 @@
-class ExternalDependencySample {
-    hitCounter = 0;
+class AjaxCallFromExternalSource {
 
     constructor(ContentStationSdk) {
         this.ContentStationSdk = ContentStationSdk;
@@ -7,11 +6,11 @@ class ExternalDependencySample {
 
     create() {
         this.ContentStationSdk.registerCustomApp({
-            name: 'external-dependency-sample',
-            title: 'External dependency sample',
+            name: 'ajax-call-from-external-source',
+            title: 'Ajax Call From External Source',
             content: `<div style="padding: 30px">
-              <h3 id="external-dependency-sample-title">Change me</h3>
-              <button id="external-dependency-sample-button" class="cs-btn">Change title</button>
+              <button id="call-inbox-button" class="cs-btn">Call Inbox</button>
+              <div id="inbox-result"></div>
             </div>`,
             onInit: () => {
                 this.init();
@@ -53,37 +52,15 @@ class ExternalDependencySample {
         this.$ = jQuery.noConflict();
     }
 
-    async loadLodash() {
-        // Source: https://cdnjs.com/libraries/lodash.js/
-        await this.addScript(
-            'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.19/lodash.min.js',
-            'sha512-/A6lxqQJVUIMnx8B/bx/ERfeuJnqoWPJdUxN8aBj+tZYL35O998ry7UUGoN65PSUNlJNrqKZrDENi4i1c3zy4Q==',
-            'anonymous',
-        );
-        // Ensure that our lodash dependency is not conflicting with lodash in the main application.
-        this._ = _.noConflict();
-    }
-
     async loadDependencies() {
-        // Debug logging.
-        console.log(jQuery ? `Main app jQuery version: ${$.fn.jquery}` : 'No jQuery available in main app');
-        console.log(_ && _.VERSION ? `Main app lodash version: ${_.VERSION}` : 'No lodash available in main app');
-
-        // Load our own jQuery and lodash.
+        // Load our own jQuery .
         await this.loadJQuery();
-        await this.loadLodash();
-
-        // Debug logging.
-        console.log(`Locally loaded jQuery version: ${this.$.fn.jquery}`);
-        console.log(`Locally loaded lodash version: ${this._.VERSION}`);
     }
 
     addHandlers() {
         // We can do our magic using our locally loaded jQuery "this.$" and lodash "this._".
         this.$('#external-dependency-sample-button').click(() => {
-            this.hitCounter++;
-            const title = this._.capitalize(`tiTle CHange ${this.hitCounter}`);
-            this.$('#external-dependency-sample-title').text(title);
+            this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
                 url: 'https://es-cloud-dev.enterprise-dev.woodwing.net/enterprise/index.php?protocol=JSON',
@@ -91,12 +68,46 @@ class ExternalDependencySample {
                     'x-woodwing-application': 'Content Station'
                 },
                 method: 'POST',
-                body: {"method":"NamedQuery","params":[{"Params":[],"Query":"Inbox","FirstEntry":1,"MaxEntries":0,"Hierarchical":false}],"id":1000,"jsonrpc":"2.0"}
-            }).then((result) => console.debug(result))
+                data: JSON.stringify({
+                    "method":"NamedQuery",
+                    "params":[
+                        {
+                            "Params":[],
+                            "Query":"Inbox",
+                            "FirstEntry":1,
+                            "MaxEntries":0,
+                            "Hierarchical":false
+                        }
+                    ],
+                    "id":1000,
+                    "jsonrpc":"2.0"
+                })
+            }).then((result) => {
+                this.$('#inbox-result').text(syntaxHighlight(JSON.stringify(result)));
+            })
+        });
+    }
+
+    syntaxHighlight(json) {
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
         });
     }
 }
 
 ((ContentStationSdk) => {
-    new ExternalDependencySample(ContentStationSdk).create();
+    new AjaxCallFromExternalSource(ContentStationSdk).create();
 })(ContentStationSdk);
