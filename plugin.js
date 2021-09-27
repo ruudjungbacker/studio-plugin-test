@@ -2,8 +2,6 @@ class AjaxCallFromExternalSource {
 
     constructor(ContentStationSdk) {
         this.ContentStationSdk = ContentStationSdk;
-
-        this.serverUrl = ContentStationSdk.getInfo().ServerInfo.URL;
     }
 
     create() {
@@ -74,7 +72,7 @@ class AjaxCallFromExternalSource {
             this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
-                url: this.serverUrl  + 'index.php?protocol=JSON',
+                url: this.ContentStationSdk.getInfo().ServerInfo.URL  + 'index.php?protocol=JSON',
                 headers: {
                     'x-woodwing-application': 'Content Station'
                 },
