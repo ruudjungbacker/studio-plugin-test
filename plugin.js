@@ -72,7 +72,7 @@ class AjaxCallFromExternalSource {
             this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
-                url: this.ContentStationSdk.getInfo().ServerInfo.URL  + 'index.php?protocol=JSON',
+                url: this.ContentStationSdk.getInfo().ServerInfo.URL  + '?protocol=JSON',
                 headers: {
                     'x-woodwing-application': 'Content Station'
                 },
