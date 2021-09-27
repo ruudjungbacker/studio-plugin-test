@@ -85,7 +85,7 @@ class AjaxCallFromExternalSource {
             }).then((result) => {
                 this.$('#inbox-result').text(syntaxHighlight(JSON.stringify(result)));
             }).catch((error) => {
-                this.$('#inbox-result').text('Error: ' + error.message);
+                this.$('#inbox-result').text('Error: ' + error);
             })
         });
     }
