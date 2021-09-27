@@ -91,7 +91,7 @@ class AjaxCallFromExternalSource {
                     'jsonrpc': '2.0'
                 })
             }).then((result) => {
-                this.$('#inbox-result').innerHTML(this.syntaxHighlight(JSON.stringify(result)));
+                this.$('#inbox-result').html(this.syntaxHighlight(JSON.stringify(result)));
             }).catch((error) => {
                 this.$('#inbox-result').text('Error: ' + error.status + ' - ' + error.statusText);
                 console.error('Error occurred: ', error);
