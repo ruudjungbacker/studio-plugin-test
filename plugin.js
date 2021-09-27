@@ -66,6 +66,23 @@ class AjaxCallFromExternalSource {
     }
 
     addHandlers() {
+
+        this.$.ajax({
+            // url: csConfig.serverUrl  + 'index.php?protocol=JSON',
+            url: 'https://es-cloud-dev.enterprise-dev.woodwing.net/enterprise/index.php?protocol=JSON&ww-app=Content+Station',
+            headers: {
+                'x-woodwing-application': 'Content Station'
+            },
+            method: 'POST',
+            data: JSON.stringify({
+                'method': 'GetUsers',
+                'id': 1000,
+                'jsonrpc': '2.0'
+            })
+        }).then((result) => {
+            console.debug('Testing', result)
+        })
+
         // We can do our magic using our locally loaded jQuery "this.$"
         this.$('#call-inbox-button').click(() => {
             this.$('#inbox-result').text('Loading');
