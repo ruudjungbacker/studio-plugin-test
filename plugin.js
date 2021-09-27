@@ -8,7 +8,15 @@ class AjaxCallFromExternalSource {
         this.ContentStationSdk.registerCustomApp({
             name: 'ajax-call-from-external-source',
             title: 'Ajax Call From External Source',
-            content: `<div style="padding: 30px">
+            content: `<style>
+            pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+            .string { color: green; }
+            .number { color: darkorange; }
+            .boolean { color: blue; }
+            .null { color: magenta; }
+            .key { color: red; }
+            </style>
+            <div style="padding: 30px">
               <button id="call-inbox-button" class="cs-btn">Call Inbox</button>
               <div id="inbox-result"></div>
             </div>`,
@@ -83,7 +91,7 @@ class AjaxCallFromExternalSource {
                     'jsonrpc': '2.0'
                 })
             }).then((result) => {
-                this.$('#inbox-result').text(this.syntaxHighlight(JSON.stringify(result)));
+                this.$('#inbox-result').innerHTML(this.syntaxHighlight(JSON.stringify(result)));
             }).catch((error) => {
                 this.$('#inbox-result').text('Error: ' + error.status + ' - ' + error.statusText);
                 console.error('Error occurred: ', error);
