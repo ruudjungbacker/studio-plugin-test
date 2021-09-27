@@ -58,7 +58,7 @@ class AjaxCallFromExternalSource {
     }
 
     addHandlers() {
-        // We can do our magic using our locally loaded jQuery "this.$" and lodash "this._".
+        // We can do our magic using our locally loaded jQuery "this.$"
         this.$('#call-inbox-button').click(() => {
             this.$('#inbox-result').text('Loading');
 
