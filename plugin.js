@@ -63,7 +63,7 @@ class AjaxCallFromExternalSource {
             this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
-                url: window.parent.csConfig.serverURL + 'index.php?protocol=JSON',
+                url: csConfig.serverURL + 'index.php?protocol=JSON',
                 headers: {
                     'x-woodwing-application': 'Content Station'
                 },
@@ -86,6 +86,7 @@ class AjaxCallFromExternalSource {
                 this.$('#inbox-result').text(syntaxHighlight(JSON.stringify(result)));
             }).catch((error) => {
                 this.$('#inbox-result').text('Error: ' + error);
+                console.debug(error);
             })
         });
     }
