@@ -59,28 +59,28 @@ class AjaxCallFromExternalSource {
 
     addHandlers() {
         // We can do our magic using our locally loaded jQuery "this.$" and lodash "this._".
-        this.$('#external-dependency-sample-button').click(() => {
+        this.$('#call-inbox-button').click(() => {
             this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
-                url: 'https://es-cloud-dev.enterprise-dev.woodwing.net/enterprise/index.php?protocol=JSON',
+                url: csConfig.serverURL + 'index.php?protocol=JSON',
                 headers: {
                     'x-woodwing-application': 'Content Station'
                 },
                 method: 'POST',
                 data: JSON.stringify({
-                    "method":"NamedQuery",
-                    "params":[
+                    'method': 'NamedQuery',
+                    'params': [
                         {
-                            "Params":[],
-                            "Query":"Inbox",
-                            "FirstEntry":1,
-                            "MaxEntries":0,
-                            "Hierarchical":false
+                            'Params': [],
+                            'Query': 'Inbox',
+                            'FirstEntry': 1,
+                            'MaxEntries': 0,
+                            'Hierarchical': false
                         }
                     ],
-                    "id":1000,
-                    "jsonrpc":"2.0"
+                    'id': 1000,
+                    'jsonrpc': '2.0'
                 })
             }).then((result) => {
                 this.$('#inbox-result').text(syntaxHighlight(JSON.stringify(result)));
