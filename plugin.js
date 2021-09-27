@@ -90,7 +90,7 @@ class ExternalDependencySample {
                 headers: {
                     'X-WW-Application': 'Content Station'
                 },
-                method: 'post',
+                method: 'POST',
                 body: {"method":"NamedQuery","params":[{"Params":[],"Query":"Inbox","FirstEntry":1,"MaxEntries":0,"Hierarchical":false}],"id":1000,"jsonrpc":"2.0"}
             }).then((result) => console.debug(result))
         });
