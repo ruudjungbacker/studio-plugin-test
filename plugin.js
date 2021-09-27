@@ -72,8 +72,7 @@ class AjaxCallFromExternalSource {
             this.$('#inbox-result').text('Loading');
 
             this.$.ajax({
-                // url: csConfig.serverUrl  + 'index.php?protocol=JSON',
-                url: 'https://es-cloud-dev.enterprise-dev.woodwing.net/enterprise/index.php?protocol=JSON&ww-app=Content+Station',
+                url: csConfig.serverUrl  + 'index.php?protocol=JSON',
                 headers: {
                     'x-woodwing-application': 'Content Station'
                 },
