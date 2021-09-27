@@ -88,7 +88,7 @@ class ExternalDependencySample {
             this.$.ajax({
                 url: 'https://es-cloud-dev.enterprise-dev.woodwing.net/enterprise/index.php?protocol=JSON',
                 headers: {
-                    'X-WW-Application': 'Content Station'
+                    'x-woodwing-application': 'Content Station'
                 },
                 method: 'POST',
                 body: {"method":"NamedQuery","params":[{"Params":[],"Query":"Inbox","FirstEntry":1,"MaxEntries":0,"Hierarchical":false}],"id":1000,"jsonrpc":"2.0"}
